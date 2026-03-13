@@ -1,0 +1,16 @@
+{
+  "name": "lx-source-api-type",
+  "version": "2.0.0",
+  "type": "module",
+  "author": "Ceale",
+  "license": "MIT",
+  "exports": {
+    "types": "./type.d.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
+  }
+}
