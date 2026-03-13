@@ -4,12 +4,12 @@ import Crypto from "node:crypto"
 /**
  * LX Music 自定义源 API 类型定义
  */
-declare namespace LX {
-    type Quality = "128k" | "320k" | "flac" | "flac24bit"
-    type NetAction = "musicUrl" | "lyric" | "pic"
-    type SupportPlatform = "kw" | "kg" | "tx" | "wy" | "mg" | "local"
+export declare namespace LX {
+    export type Quality = "128k" | "320k" | "flac" | "flac24bit"
+    export type NetAction = "musicUrl" | "lyric" | "pic"
+    export type SupportPlatform = "kw" | "kg" | "tx" | "wy" | "mg" | "local"
 
-    interface MusicInfo {
+    export interface MusicInfo {
         name: string
         singer: string
         source: SupportPlatform
@@ -20,14 +20,14 @@ declare namespace LX {
         [key: string]: any
     }
 
-    interface LyricResult {
+    export interface LyricResult {
         lyric: string
         tlyric?: string | null
         rlyric?: string | null
         lxlyric?: string | null
     }
 
-    interface MRequestOptions {
+    export interface MRequestOptions {
         /** 默认为 Get */
         method?: string
         headers?: Record<string, string>
@@ -37,7 +37,7 @@ declare namespace LX {
         timeout?: number
     }
 
-    interface MRequestResponse {
+    export interface MRequestResponse {
         statusCode: number
         statusMessage: string
         headers: Record<string, string>
@@ -46,24 +46,24 @@ declare namespace LX {
         body: any
     }
 
-    interface SourceInfo {
+    export interface SourceInfo {
         name: string
         type: "music"
         actions: NetAction[]
         qualitys: Quality[]
     }
 
-    interface InitedPayload {
+    export interface InitedPayload {
         sources: Partial<Record<SupportPlatform, SourceInfo>>
         openDevTools?: boolean
     }
 
-    interface UpdateAlertPayload {
+    export interface UpdateAlertPayload {
         log: string
         updateUrl?: string
     }
 
-    interface ERequestParams {
+    export interface ERequestParams {
         source: SupportPlatform
         action: NetAction
         info: {
@@ -72,20 +72,20 @@ declare namespace LX {
         }
     }
     
-    type ERequestResult = string | {
+    export type ERequestResult = string | {
         lyric: string,
         tlyric: string | null
         rlyric: string | null
         lxlyric: string | null
     }
 
-    interface EVENT_NAMES {
+    export interface EVENT_NAMES {
         inited: "inited"
         request: "request"
         updateAlert: "updateAlert"
     }
 
-    interface Utils {
+    export interface Utils {
         buffer: {
             from: typeof Buffer.from
             bufToString(buffer: WithImplicitCoercion<ArrayLike<number> | string>, format: BufferEncoding): string
@@ -104,7 +104,7 @@ declare namespace LX {
     }
 
     /** 当前脚本信息 */
-    interface ScriptInfo {
+    export interface ScriptInfo {
         name: string
         description: string
         version: string
@@ -113,7 +113,7 @@ declare namespace LX {
         rawScript: string
     }
 
-    interface API {
+    export interface API {
         /** API 版本号 */
         version: "2.0.0"
         /** 运行环境 */
