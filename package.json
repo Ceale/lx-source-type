@@ -4,6 +4,7 @@
   "type": "module",
   "author": "Ceale",
   "license": "MIT",
+  "repository": "https://github.com/Ceale/lx-source-type.git",
   "exports": {
     ".": {
       "types": "./type.d.ts"
