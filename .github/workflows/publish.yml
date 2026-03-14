@@ -5,6 +5,8 @@ name: Publish
 
 on:
   workflow_dispatch:
+  publish:
+    branches: [ main ]
 
 permissions:
   id-token: write  # Required for OIDC

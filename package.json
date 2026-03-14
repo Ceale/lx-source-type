@@ -1,6 +1,6 @@
 {
   "name": "lx-source-type",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "author": "Ceale",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "files": [
     "README.md",
-    "index.d.ts",
+    "type.d.ts",
     "define.d.ts"
   ],
   "peerDependencies": {
