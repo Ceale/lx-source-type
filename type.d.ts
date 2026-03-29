@@ -6,9 +6,25 @@ import type Zlib from "node:zlib"
  * LX Music 自定义源 API 类型定义
  */
 export declare namespace LX {
-    export type Quality = "128k" | "320k" | "flac" | "flac24bit"
-    export type NetAction = "musicUrl" | "lyric" | "pic"
     export type SupportPlatform = "kw" | "kg" | "tx" | "wy" | "mg" | "local"
+    export type NetAction = "musicUrl" | "lyric" | "pic"
+    export type Quality = "128k" | "320k" | "flac" | "flac24bit"
+
+    /** 当前脚本信息 */
+    export interface ScriptInfo {
+        name: string
+        description: string
+        version: string
+        author: string
+        homepage: string
+        rawScript: string
+    }
+
+    export interface EVENT_NAMES {
+        inited: "inited"
+        request: "request"
+        updateAlert: "updateAlert"
+    }
 
     export interface MusicInfo {
         name: string
@@ -29,11 +45,52 @@ export declare namespace LX {
         [key: string]: any
     }
 
+    export interface ProviderParams {
+        source: SupportPlatform
+        action: NetAction
+        info: {
+            type?:  Quality | null
+            musicInfo: MusicInfo
+        }
+    }
+
     export interface LyricResult {
         lyric: string
         tlyric?: string | null
         rlyric?: string | null
         lxlyric?: string | null
+    }
+    
+    export type ProviderResult = string | LyricResult
+
+    export interface Provider {
+        (params: ProviderParams): Promise<ProviderResult>
+    }
+
+    export interface OnEvent {
+        (eventName: EVENT_NAMES["request"], handler: Provider): Promise<void>
+    }
+
+    export interface SourceInfo {
+        name: string
+        type: "music"
+        actions: NetAction[]
+        qualitys: Quality[]
+    }
+
+    export interface InitedPayload {
+        sources: Partial<Record<SupportPlatform, SourceInfo>>
+        openDevTools?: boolean
+    }
+
+    export interface UpdateAlertPayload {
+        log: string
+        updateUrl?: string
+    }
+
+    export interface SendEvent {
+        (eventName: EVENT_NAMES["inited"], data: InitedPayload): Promise<void>
+        (eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): Promise<void>
     }
 
     export interface RequestOptions {
@@ -55,47 +112,16 @@ export declare namespace LX {
         body: any
     }
 
-    export interface SourceInfo {
-        name: string
-        type: "music"
-        actions: NetAction[]
-        qualitys: Quality[]
+    export interface RequestCallback {
+        (err: any, resp: RequestResponse | null, body: any): void
     }
 
-    export interface InitedPayload {
-        sources: Partial<Record<SupportPlatform, SourceInfo>>
-        openDevTools?: boolean
-    }
-
-    export interface UpdateAlertPayload {
-        log: string
-        updateUrl?: string
-    }
-
-    export interface Provider {
-        (params: ProviderParams): Promise<ProviderResult>
-    }
-
-    export interface ProviderParams {
-        source: SupportPlatform
-        action: NetAction
-        info: {
-            type?:  Quality | null
-            musicInfo: MusicInfo
-        }
-    }
-    
-    export type ProviderResult = string | {
-        lyric: string,
-        tlyric: string | null
-        rlyric: string | null
-        lxlyric: string | null
-    }
-
-    export interface EVENT_NAMES {
-        inited: "inited"
-        request: "request"
-        updateAlert: "updateAlert"
+    export interface Request {
+        (
+            url: string,
+            options: RequestOptions,
+            callback: RequestCallback
+        ): () => void
     }
 
     export interface Utils {
@@ -114,37 +140,6 @@ export declare namespace LX {
             inflate(buffer: Zlib.InputType): Promise<NonSharedBuffer>
             deflate(buffer: Zlib.InputType): Promise<NonSharedBuffer>
         }
-    }
-
-    /** 当前脚本信息 */
-    export interface ScriptInfo {
-        name: string
-        description: string
-        version: string
-        author: string
-        homepage: string
-        rawScript: string
-    }
-
-    export interface RequestCallback {
-        (err: any, resp: RequestResponse | null, body: any): void
-    }
-
-    export interface OnEvent {
-        (eventName: EVENT_NAMES["request"], handler: Provider): Promise<void>
-    }
-
-    export interface SendEvent {
-        (eventName: EVENT_NAMES["inited"], data: InitedPayload): Promise<void>
-        (eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): Promise<void>
-    }
-
-    export interface Request {
-        (
-            url: string,
-            options: RequestOptions,
-            callback: RequestCallback
-        ): () => void
     }
 
     export interface API {
