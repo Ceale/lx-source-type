@@ -147,6 +147,37 @@ export declare namespace LX {
         ): () => void
     }
 
+    export interface Utils {
+        buffer: {
+            from: typeof Buffer.from
+            bufToString(buffer: WithImplicitCoercion<string>, format: BufferEncoding): string
+        }
+        crypto: {
+            aesEncrypt(buffer: NodeJS.ArrayBufferView, mode: CipherCCMTypes | CipherGCMTypes | CipherOCBTypes | CipherChaCha20Poly1305Types, key: CipherKey, iv: BinaryLike): Buffer
+            rsaEncrypt(buffer: BinaryLike, key: string): NonSharedBuffer
+            randomBytes(size: number): Buffer
+            md5(str: BinaryLike): string
+        }
+        zlib: {
+            inflate(buffer: InputType): Promise<NonSharedBuffer>
+            deflate(buffer: InputType): Promise<NonSharedBuffer>
+        }
+    }
+
+    type BufferMobile = Uint8Array | number[] | string
+    export interface UtilsMobile {
+        buffer: {
+            from(input: BufferMobile, encoding?: "base64" | "hex" | "utf8"): Uint8Array
+            bufToString(buffer: Uint8Array | number[], format: "hex" | "base64" | "utf8" | "binary"): string
+        }
+        crypto: {
+            aesEncrypt(buffer: BufferMobile, mode: "aes-128-cbc" | "aes-128-ecb", key: string, iv: string): Uint8Array
+            rsaEncrypt(buffer: BufferMobile, key: string): Uint8Array
+            randomBytes(size: number): Uint8Array
+            md5(str: string): string
+        }
+    }
+
     export interface API {
         /** API 版本号 */
         version: "2.0.0"
@@ -164,4 +195,11 @@ export declare namespace LX {
         /** 工具方法 */
         utils: Utils
     }
+}
+
+const { test, type, a, b } = {} as { test: "test", type: "a" | "b" } & ({ type: "a", a: 1, b: 2 } | { type: "b", a: 3 })
+if (type === "a") {
+    a, b
+} else {
+    a, b
 }
