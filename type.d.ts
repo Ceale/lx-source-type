@@ -1,4 +1,5 @@
 import type { WithImplicitCoercion } from "node:buffer"
+import type { BinaryLike } from "node:crypto"
 import type Zlib from "node:zlib"
 
 /**
